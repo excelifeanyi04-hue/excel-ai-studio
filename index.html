@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Excel AI Studio</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Arial,sans-serif;
+  background:#0b0d12;
+  color:#fff;
+  min-height:100vh;
+}
+.app{display:flex;min-height:100vh}
+.sidebar{
+  width:230px;
+  background:#11141c;
+  border-right:1px solid #252936;
+  padding:25px 15px;
+}
+.logo{
+  font-size:22px;
+  font-weight:bold;
+  margin-bottom:35px;
+}
+.logo span{color:#e8b34d}
+.nav button{
+  width:100%;
+  padding:13px;
+  margin-bottom:8px;
+  border:0;
+  border-radius:10px;
+  background:transparent;
+  color:#aaa;
+  text-align:left;
+  font-size:15px;
+  cursor:pointer;
+}
+.nav button:hover,.nav button.active{
+  background:#202531;
+  color:#fff;
+}
+.main{flex:1;padding:25px;max-width:1200px}
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:35px;
+}
+.credits{
+  background:#191d27;
+  padding:10px 15px;
+  border-radius:20px;
+  color:#e8b34d;
+}
+.hero{
+  background:linear-gradient(135deg,#171b26,#11141c);
+  border:1px solid #282d39;
+  border-radius:20px;
+  padding:35px;
+  margin-bottom:25px;
+}
+.hero h1{font-size:34px;margin-bottom:10px}
+.hero p{color:#999;line-height:1.6}
+.cards{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+.card{
+  background:#151820;
+  border:1px solid #282d39;
+  border-radius:16px;
+  padding:22px;
+  cursor:pointer;
+  transition:.2s;
+}
+.card:hover{
+  transform:translateY(-3px);
+  border-color:#e8b34d;
+}
+.icon{font-size:32px;margin-bottom:15px}
+.card h3{margin-bottom:8px}
+.card p{color:#8d929e;font-size:14px;line-height:1.5}
+.section{display:none}
+.section.active{display:block}
+.generator{
+  background:#151820;
+  border:1px solid #282d39;
+  border-radius:18px;
+  padding:25px;
+}
+textarea{
+  width:100%;
+  min-height:140px;
+  background:#0d1016;
+  border:1px solid #303541;
+  border-radius:12px;
+  color:white;
+  padding:15px;
+  font-size:15px;
+  resize:vertical;
+  margin:15px 0;
+}
+select{
+  width:100%;
+  padding:13px;
+  background:#0d1016;
+  color:white;
+  border:1px solid #303541;
+  border-radius:10px;
+  margin-bottom:15px;
+}
+.generate{
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:10px;
+  background:#e8b34d;
+  color:#111;
+  font-weight:bold;
+  font-size:16px;
+  cursor:pointer;
+}
+.result{
+  margin-top:20px;
+  padding:20px;
+  background:#0d1016;
+  border-radius:12px;
+  text-align:center;
+  color:#999;
+  min-height:100px;
+}
+.pro{
+  background:linear-gradient(135deg,#201b10,#171820);
+  border:1px solid #e8b34d;
+}
+@media(max-width:750px){
+  .sidebar{width:70px;padding:20px 8px}
+  .logo{font-size:12px;text-align:center}
+  .nav button{font-size:0;text-align:center}
+  .nav button:first-letter{font-size:20px}
+  .main{padding:15px}
+  .cards{grid-template-columns:1fr}
+  .hero h1{font-size:27px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<aside class="sidebar">
+  <div class="logo">EXCEL <span>AI</span></div>
+
+  <div class="nav">
+    <button class="active" onclick="show('home')">🏠 Dashboard</button>
+    <button onclick="show('image')">🖼️ Image</button>
+    <button onclick="show('video')">🎬 Video</button>
+    <button onclick="show('animation')">✨ Animation</button>
+    <button onclick="show('creations')">📁 Creations</button>
+    <button onclick="show('pro')">⭐ Pro</button>
+  </div>
+</aside>
+
+<main class="main">
+
+<div class="top">
+  <h2 id="title">Excel AI Studio</h2>
+  <div class="credits">⚡ 100 Credits</div>
+</div>
+
+<!-- HOME -->
+<section id="home" class="section active">
+
+<div class="hero">
+  <h1>Create anything with AI.</h1>
+  <p>
+    Generate images, videos and animations from your ideas.
+    Excel AI Studio is your creative AI workspace.
+  </p>
+</div>
+
+<div class="cards">
+
+<div class="card" onclick="show('image')">
+  <div class="icon">🖼️</div>
+  <h3>AI Image Generator</h3>
+  <p>Turn your ideas into stunning AI images.</p>
+</div>
+
+<div class="card" onclick="show('video')">
+  <div class="icon">🎬</div>
+  <h3>AI Video Generator</h3>
+  <p>Create short videos from text and images.</p>
+</div>
+
+<div class="card" onclick="show('animation')">
+  <div class="icon">✨</div>
+  <h3>Animation Studio</h3>
+  <p>Bring characters and images to life.</p>
+</div>
+
+</div>
+</section>
+
+<!-- IMAGE -->
+<section id="image" class="section">
+<div class="generator">
+<h2>🖼️ AI Image Generator</h2>
+<p style="color:#888;margin-top:8px">
+Describe the image you want to create.
+</p>
+
+<textarea id="imagePrompt"
+placeholder="Example: A futuristic African city at sunset, cinematic lighting, ultra detailed..."></textarea>
+
+<select>
+<option>Realistic</option>
+<option>Cinematic</option>
+<option>3D Animation</option>
+<option>Anime</option>
+<option>Illustration</option>
+</select>
+
+<button class="generate" onclick="generate('image')">
+Generate Image
+</button>
+
+<div class="result" id="imageResult">
+Your generated image will appear here.
+</div>
+</div>
+</section>
+
+<!-- VIDEO -->
+<section id="video" class="section">
+<div class="generator">
+<h2>🎬 AI Video Generator</h2>
+<p style="color:#888;margin-top:8px">
+Describe the video you want to create.
+</p>
+
+<textarea id="videoPrompt"
+placeholder="Example: A young explorer walking through a mysterious African forest..."></textarea>
+
+<select>
+<option>5 Second Video</option>
+<option>8 Second Video</option>
+<option>10 Second Video</option>
+</select>
+
+<button class="generate" onclick="generate('video')">
+Generate Video
+</button>
+
+<div class="result" id="videoResult">
+Your generated video will appear here.
+</div>
+</div>
+</section>
+
+<!-- ANIMATION -->
+<section id="animation" class="section">
+<div class="generator">
+<h2>✨ Animation Generator</h2>
+<p style="color:#888;margin-top:8px">
+Create animated content from your idea.
+</p>
+
+<textarea id="animationPrompt"
+placeholder="Example: A 3D cartoon boy running through a futuristic city..."></textarea>
+
+<select>
+<option>3D Animation</option>
+<option>Cartoon</option>
+<option>Anime</option>
+<option>Motion Graphics</option>
+</select>
+
+<button class="generate" onclick="generate('animation')">
+Generate Animation
+</button>
+
+<div class="result" id="animationResult">
+Your animation will appear here.
+</div>
+</div>
+</section>
+
+<!-- CREATIONS -->
+<section id="creations" class="section">
+<div class="hero">
+<h2>📁 My Creations</h2>
+<p>Your generated images, videos and animations will appear here.</p>
+</div>
+</section>
+
+<!-- PRO -->
+<section id="pro" class="section">
+<div class="hero pro">
+<h1>⭐ Excel AI Pro</h1>
+<p style="margin:15px 0">
+Unlock higher generation limits, faster creation and advanced AI tools.
+</p>
+
+<h2>Coming soon 🚀</h2>
+
+<p style="margin-top:15px;color:#999">
+Pro subscriptions and credit packages will be added after we connect
+the real AI generation system.
+</p>
+</div>
+</section>
+
+</main>
+</div>
+
+<script>
+
+function show(page){
+
+document.querySelectorAll('.section')
+.forEach(x=>x.classList.remove('active'));
+
+document.getElementById(page)
+.classList.add('active');
+
+document.getElementById('title').innerText =
+page === 'home' ? 'Excel AI Studio' :
+page === 'image' ? 'AI Image Generator' :
+page === 'video' ? 'AI Video Generator' :
+page === 'animation' ? 'Animation Generator' :
+page === 'creations' ? 'My Creations' :
+'Excel AI Pro';
+
+}
+
+function generate(type){
+
+let result=document.getElementById(type+'Result');
+
+result.innerHTML =
+'⏳ Preparing your AI generation...<br><br>' +
+'<small>This is our demo generator. Real AI models will be connected later.</small>';
+
+setTimeout(()=>{
+
+result.innerHTML =
+'🚀 <strong>Generation system ready!</strong><br><br>' +
+'The real AI API will generate your ' + type +
+' here once we connect it.';
+
+},1200);
+
+}
+
+</script>
+
+</body>
+    </html>
